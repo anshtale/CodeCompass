@@ -18,3 +18,17 @@ model User {
     emailAddress String @unique
     credits Int @default(100)
 }
+
+model Project{
+    id String @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
+
+    name String
+    githubUrl String
+
+    deletedAt DateTime?
+
+
+
+}
