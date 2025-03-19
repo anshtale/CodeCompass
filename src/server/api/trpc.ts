@@ -83,6 +83,7 @@ export const createTRPCRouter = t.router;
 
 const isAuthenticated = t.middleware(async ({next,ctx})=>{
     const user = await auth()
+
     if(!user){
       throw new TRPCError({
         code: 'UNAUTHORIZED',
@@ -97,6 +98,7 @@ const isAuthenticated = t.middleware(async ({next,ctx})=>{
       }
     })
 })
+
 const timingMiddleware = t.middleware(async ({ next, path }) => {
   const start = Date.now();
 

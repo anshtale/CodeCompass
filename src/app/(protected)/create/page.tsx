@@ -2,8 +2,10 @@
 import Image from 'next/image'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
+import { api } from '~/trpc/react'
 
 type formInput = {
     repoUrl : string
@@ -13,8 +15,23 @@ type formInput = {
 function CreatePage() {
     const {register, handleSubmit, reset} = useForm<formInput>();
 
-    function onSubmit( data : formInput){
+    const createProject = api.project.createProject.useMutation()
 
+    function onSubmit( data : formInput){
+        createProject.mutate({
+            githubUrl : data.repoUrl,
+            name : data.projectName,
+            githubToken:data.githubToken
+        },{
+            onSuccess:()=>{
+                toast.success('Project Created Successfully!')
+                reset();
+            },
+            onError: (error)=>{
+                console.log('CREATE',error.message)
+                toast.error('Failed to create project')
+            }
+        })
     }
 
     
@@ -57,7 +74,7 @@ function CreatePage() {
                     
                     <div className='h-4'></div>
 
-                    <Button>
+                    <Button type='submit'>
                         Create Project
                     </Button>
                 </form>
