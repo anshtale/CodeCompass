@@ -18,6 +18,8 @@ import {
     SidebarMenuItem,
     useSidebar,
   } from '~/components/ui/sidebar'
+import useProject from '~/hooks/use-projects'
+import useRefetch from '~/hooks/use-refetch'
 import { cn } from '~/lib/utils'
 const items = [
     {
@@ -43,17 +45,11 @@ const items = [
 
 ]
 
-const projects = [
-    {
-        name : 'project-1'
-    },
-]
-
-
 export function AppSideBar(){
     const pathname = usePathname();
     const {open} = useSidebar();
-
+    const { projects, projectId, setProjectId} = useProject();
+    
     return (
         <Sidebar collapsible='icon' variant='floating'>
           <SidebarHeader>
@@ -93,13 +89,15 @@ export function AppSideBar(){
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
                     <SidebarMenu>
-                        {projects.map(project=>{
+                        {projects?.map(project=>{
                             return (
-                                <SidebarMenuItem key={project.name}>
+                                <SidebarMenuItem key={project.id}>
                                     <SidebarMenuButton asChild>
-                                        <div>
-                                            <div className={cn('rounded-sm border size-6 flex items-center justify-center text-sm bg-white text-primary',{
-                                                'bg-primary text-white': true
+                                        <div className = "cursor-pointer"
+                                        onClick={()=> setProjectId(project.id)}>
+                                            <div className={cn('rounded-sm border size-6 flex items-center justify-center text-sm bg-white text-primary',
+                                            {
+                                                'bg-primary text-white' : project.id === projectId
                                             })}>
                                                 {project.name[0]}
                                             </div>
