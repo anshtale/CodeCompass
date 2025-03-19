@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
 import { api } from '~/trpc/react'
+import Spinner from './spinner'
 
 type formInput = {
     repoUrl : string
@@ -74,7 +75,10 @@ function CreatePage() {
                     
                     <div className='h-4'></div>
 
-                    <Button type='submit'>
+                    <Button type='submit' disabled = {createProject.isPending}>
+                        {createProject.isPending && 
+                        <Spinner/>
+                        }
                         Create Project
                     </Button>
                 </form>

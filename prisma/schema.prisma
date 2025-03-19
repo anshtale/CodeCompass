@@ -34,7 +34,6 @@ model Project{
     githubUrl String
 
     deletedAt DateTime?
-    userId String @unique //foreign key
 
     userToProjects UserToProject[]
 }
