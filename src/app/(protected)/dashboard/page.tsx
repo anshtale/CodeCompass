@@ -11,7 +11,7 @@ const DashBoard = ()=>{
     return(
         <div>
             <div className='flex items-center justify-between flex-wrap gap-y-4'>
-                
+
                 {/*github link */}
                 <div className='w-fit rounded-md bg-primary px-4 py-3'>
                     <div className="flex items-center">
@@ -27,6 +27,24 @@ const DashBoard = ()=>{
                         </div>
                     </div>
                 </div>
+                <div className='h-4'></div>
+
+                <div className = 'flex items-center gap-4'>
+                    <h1> Team Members</h1>
+                    <h1> Invite Button</h1>
+                    <h1> Archive Button</h1>
+                </div>
+            </div>
+
+            <div className='mt-4 '>
+                <div className='grid grid-cols-1 gap-4 sm:grid-cols-5'>
+                    AskQuestionCard
+                    MeetingCard
+                </div>
+            </div>
+
+            <div className="mt-8">
+                commit log
             </div>
         </div>
     )
