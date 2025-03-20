@@ -29,7 +29,6 @@ function CreatePage() {
                 toast.success('Project Created Successfully!')
                 refetch();
                 reset();
-                
             },
             onError: (error)=>{
                 console.log('CREATE',error.message)

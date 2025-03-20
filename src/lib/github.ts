@@ -19,6 +19,7 @@ type Response = {
 
 export const getCommitHashes = async (githubUrl : string): Promise<Response[]>=> {
     const [owner,repo] = githubUrl.split('/').slice(-2);
+    // console.log(owner,repo);
     
     if(!owner || !repo){
         throw new Error("Invalid Repository Url");
@@ -32,11 +33,13 @@ export const getCommitHashes = async (githubUrl : string): Promise<Response[]>=>
     const sortedCommits = data.sort((a:any,b:any) => new Date(b.commit.author.data).getTime() - new Date(a.commit.author.date).getTime()) as any
 
     return sortedCommits.slice(0,10).map((commit:any) => {
-        commitHash: commit.sha as string
-        commitMessage: commit.commit.message ?? ""
-        commitAuthorName : commit.commit?.author?.name ?? " "
-        commitAuthorAvatar : commit.author?.avatar_url ?? ""
-        commitDate : commit.commit?.author?.date ?? ""
+        return {
+            commitHash: commit.sha as string,
+            commitMessage: commit.commit.message ?? "",
+            commitAuthorName : commit.commit?.author?.name ?? " ",
+            commitAuthorAvatar : commit.author?.avatar_url ?? "",
+            commitDate : commit.commit?.author?.date ?? "",
+        }
     });
 }
 
@@ -108,8 +111,7 @@ async function fetchProjectGithubUrl(projectId : string){
 async function filterUnprocessedCommits(commitHashes: Response[],projectId:string){
     const processedCommits = await db.commit.findMany({
         where:{
-            projectId:projectId
-
+            projectId
         }
     })
 
