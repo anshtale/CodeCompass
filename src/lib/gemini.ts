@@ -67,12 +67,13 @@ export async function summariseCode(doc : Document){
         -----------
                 Give a summary no more than 100 words of the code above` 
     ]);
+
     return response.response.text();
 
 }
 
 
-export async function generateEmbeddings(summary:string){
+export async function generateEmbedding(summary:string){
     const model = genAI.getGenerativeModel({
         model:'text-embedding-004'
     })

@@ -40,6 +40,7 @@ function CommitLog() {
                                             </span>
                                         </Link>
                                     </div>
+
                                     <span className='font-semibold'>
                                         {commit.commitMessage}
                                     </span>
@@ -48,9 +49,6 @@ function CommitLog() {
                                     </pre>
 
                                 </div>
-                                
-                             
-                            
                             </>
                         </li>
                     )
