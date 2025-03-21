@@ -74,7 +74,7 @@ model SourceCodeEmbedding {
     id String @id @default(cuid())
 
     summaryEmbedding Unsupported("vector(768)")?
-    souceCode String
+    sourceCode String
     fileName String
     summary String
 
