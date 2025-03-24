@@ -53,22 +53,27 @@ export const AIsummariseCommit = async(diff:string)=>{
 }
 
 export async function summariseCode(doc : Document){
+    console.log("getting summary for: ",doc.metadata.source)
     const code = doc.pageContent.slice(0,10000);
-
-    const response = await model.generateContent([
-        `You are an intelligent senior software engineer who specialises in onboarding junior engineers onto projects`,`
-        You are onboarding a junior software engineer and explaining to them the purpose of the ${doc.metadata.source} file
+    try{
+        const response = await model.generateContent([
+            `You are an intelligent senior software engineer who specialises in onboarding junior engineers onto projects`,`
+            You are onboarding a junior software engineer and explaining to them the purpose of the ${doc.metadata.source} file
+            
+            Here is the code:
+            -----------
+    
+            ${code}
+    
+            -----------
+                    Give a summary no more than 100 words of the code above` 
+        ]);
         
-        Here is the code:
-        -----------
+        return response.response.text();
+    }catch(e){
+        return ''
+    }
 
-        ${code}
-
-        -----------
-                Give a summary no more than 100 words of the code above` 
-    ]);
-
-    return response.response.text();
 
 }
 

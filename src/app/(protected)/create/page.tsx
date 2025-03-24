@@ -13,6 +13,7 @@ type formInput = {
     projectName : string
     githubToken ?: string
 }
+
 function CreatePage() {
     const {register, handleSubmit, reset} = useForm<formInput>();
     const refetch = useRefetch();

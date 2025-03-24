@@ -23,21 +23,36 @@ export const indexGithubRepo = async(projectId:string,githubUrl:string, githubTo
     const docs = await loadGithubRepo(githubUrl,githubToken);
     const allEmbeddings = await generateEmbeddings(docs);
 
-    const reponse = await 
+    await Promise.allSettled(allEmbeddings.map(async(embedding,index)=>{
+        if(!embedding) return;
 
-    const response  = await 
+        const sourceCodeEmbedding = await db.sourceCodeEmbedding.create({
+            data:{
+                summary:embedding.summary,
+                sourceCode: embedding.sourceCode,
+                fileName: embedding.fileName,
+                projectId:projectId
+            }
+        })
+
+        await db.$executeRaw`
+        UPDATE "SourceCodeEmbedding"
+        SET "summaryEmbedding" = ${embedding.embedding} :: vector
+        WHERE "id" = ${sourceCodeEmbedding.id}`
+    }))
 }
 
 const generateEmbeddings = async(docs:Document[])=>{
     return Promise.all(docs.map(async (doc)=>{
+        
         const summary = await summariseCode(doc)
+
         const embedding  = await generateEmbedding(summary)
         return {
             summary,
             embedding,
             sourceCode: JSON.parse(JSON.stringify(doc.pageContent)),
-            fileName: doc.metadata.souce,
-
+            fileName: doc.metadata.source,
         }
     }))
 }
