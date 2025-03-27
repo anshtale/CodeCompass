@@ -66,7 +66,7 @@ export async function summariseCode(doc : Document){
             ${code}
     
             -----------
-                    Give a summary no more than 100 words of the code above` 
+            Give a summary no more than 100 words of the code above` 
         ]);
         
         return response.response.text();

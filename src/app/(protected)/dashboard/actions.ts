@@ -13,23 +13,25 @@ export async function askQuestion(question : string, projectId: string){
     const stream = createStreamableValue();
 
     const queryVector = await generateEmbedding(question);
-    console.log(queryVector);
-    const vectorQuery = `[${queryVector.join(',')}]`
-    console.log("string",vectorQuery);
+
+    const vectorQuery = `[${queryVector.join(',')}]`;
+    console.log(vectorQuery);
 
 
-    const result = await db.$queryRaw
-    `
+    // const testVector = new Array(768).fill(0.1);
+    // const vectorStr = `[${testVector.join(',')}]`;
+
+
+    const result = await db.$queryRaw`
         SELECT "fileName", "sourceCode", "summary",
-        1 - ("summaryEmbedding" <=> ${vectorQuery}::vector) AS similarity
+            1-("summaryEmbedding" <=> ${vectorQuery}::vector) AS similarity
         FROM "SourceCodeEmbedding"
-        WHERE 1-("summaryEmbedding" <=> ${vectorQuery}::vector) > 0.5
-        AND "projectId" = ${projectId}
+        WHERE 1-("summaryEmbedding" <=> ${vectorQuery}::vector)< 0.5 AND "projectId" = ${projectId}
         ORDER BY similarity DESC
         LIMIT 10
         ` as {fileName:string, sourceCode: string, summary: string}[]
 
-    console.log(result);
+    console.log(result.length);
 
     let context = ''
     for(const doc of result){
@@ -40,7 +42,7 @@ export async function askQuestion(question : string, projectId: string){
         const {textStream} = await streamText({
             model:google('gemini-1.5-flash'),
             prompt:`
-            You are a ai colde assistant who answers questions about the codebase. 
+            You are a ai code assistant who answers questions about the codebase. 
             Your target audience is a technical intern who is looking to understand the codebase.
 
             AI assistant is a brand new, powerful, human-like artificial intelligence. The traits of Al include expert knowledge, helpfulness, cleverness, and articulateness.

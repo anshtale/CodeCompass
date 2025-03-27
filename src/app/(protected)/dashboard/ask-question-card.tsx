@@ -41,20 +41,20 @@ function AskQuestionCard() {
 
     return (
         <>
-            <Dialog open = {open} onOpenChange={setOpen}>
-                <DialogContent className='sm:max-w-[80vw]'>
+            <Dialog  open = {open} onOpenChange={setOpen}>
+                <DialogContent className='scrollable max-h-[80vh] sm:max-w-[80vw] overflow-auto'>
                     <DialogHeader>
                         <DialogTitle>
                             <p>Logo</p>
                         </DialogTitle>
                     </DialogHeader>
 
-                    <div className=" bg-white">
+                    <div>
                         <MDEditor.Markdown 
                             // data-color-mode="light"
                             source={answer}
                             data-color-mode="light"
-                            className=" custom-scrollbar  [&_.wmde-markdown]:bg-white [&_.wmde-markdown]:text-gray-800 max-w-[70vw] h-full max-h-[40vh] overflow-scroll"
+                            className=" scrollable max-w-[70vw] h-full max-h-[40vh] overflow-auto"
                         />
                         <div className="h-4"></div>
                         <CodeReferences fileReferences={fileReferences}/>

@@ -18,7 +18,7 @@ function CodeReferences({fileReferences} : Props) {
     return (
         <div className='max-w-[70vw]'>
             <Tabs value={tab} onValueChange={setTab}>
-                <div className="overflow-scroll gap-2 bg-gray-200 p-1 rounded-md">
+                <div className="scrollable overflow-scroll gap-2 bg-gray-200 p-1 rounded-md">
                     {fileReferences.map((file)=>{
                         console.log(file.fileName)
                         return <button onClick = {()=>setTab(file.fileName)} key={file.fileName} className={cn(
@@ -33,10 +33,9 @@ function CodeReferences({fileReferences} : Props) {
                     })}
                 </div>
                 {fileReferences.map(file=> {
-                    return <TabsContent key = {file.fileName} value={file.fileName} className='max-h-[40vh] overflow-scroll max-w-7xl rounded-md'>
-
-
-                         <SyntaxHighlighter language='typescript' style = {lucario}>
+                    return <TabsContent key = {file.fileName} value={file.fileName} className='max-h-[40vh] scrollable overflow-scroll max-w-[70vw] rounded-md'>
+                         <SyntaxHighlighter language='typescript' style = {lucario}
+                         wrapLongLines = {true}>
                             {file.sourceCode}
                          </SyntaxHighlighter>
                     </TabsContent>
