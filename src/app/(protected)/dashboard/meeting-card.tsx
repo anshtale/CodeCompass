@@ -9,26 +9,48 @@ import { Presentation, Upload } from "lucide-react"
 import { Button } from "~/components/ui/button"
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
 import { cn } from "~/lib/utils"
+import { api } from "~/trpc/react"
+import useProject from "~/hooks/use-projects"
+import { useRouter } from "next/navigation"
 
 
 function MeetingCard() {
+    const {project} = useProject()
+    const router = useRouter();
     const [isUploading,setIsUploading] = useState(false)
     const [progress,setProgress] = useState(0)
+    const uploadMeeting = api.project.uploadMeeting.useMutation();
+
     const { getRootProps, getInputProps } = useDropzone({
         accept: {
-            'audio/*': ['.mp3','.wav','.m4a']
+            'audio/': ['.mp3','.wav','.m4a']
         },
         multiple: false,
         maxSize: 50_000_000,
         onDrop: async (acceptedFiles)=>{
             console.log(acceptedFiles)
+            if(!project) return;
+
             const file = acceptedFiles[0];
+            if(!file) return;
             
             setIsUploading(true)
             try{
-                const downloadURL = await uploadFile(file as File,setProgress)
-
-                toast.success('Meeting uploaded successfully!')
+                const downloadURL = await uploadFile(file as File,setProgress) as string
+                
+                uploadMeeting.mutate({
+                    projectId:project.id,
+                    meetingUrl: downloadURL,
+                    name: file.name
+                },{
+                    onSuccess: () => {
+                        toast.success('Meeting uploaded successfully!')
+                        router.push('/meetings')
+                    },
+                    onError: ()=>{
+                        toast.error('Error in uploading meeting')
+                    }
+                })
             }catch (err) {
                 toast.error('Error in uploading meeting')
             }finally {
