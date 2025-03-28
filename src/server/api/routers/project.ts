@@ -100,7 +100,7 @@ export const projectRouter = createTRPCRouter({
             data:{
                 meetingUrl: input.meetingUrl,
                 projectId: input.projectId,
-                name: input.name
+                name: input.name,
                 status: "PROCESSING"
             }
         })
@@ -115,6 +115,9 @@ export const projectRouter = createTRPCRouter({
             },
             orderBy:{
                 createdAt: 'desc'
+            },
+            include:{
+                issues:true
             }
         })
     })
