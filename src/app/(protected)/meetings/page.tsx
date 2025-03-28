@@ -8,16 +8,17 @@ import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const MeetingPage = ()=>{
     const {projectId} = useProject();
-
+    const router = useRouter()
     const {data : meetings,isLoading} = api.project.getMeetings.useQuery({ projectId },{
         refetchInterval: 4000
     })
-
+    const [deletingId,setDeletingId] = useState('')
     const deleteMeeting = api.project.deleteMeeting.useMutation()
-
     return (
         <>
             <MeetingCard/>
@@ -58,12 +59,16 @@ const MeetingPage = ()=>{
                                     View Meeting
                                 </Button>
                             </Link>
-                            <Button onClick={()=>{
+                            <Button disabled = {deleteMeeting.isPending && meeting.id === deletingId } onClick={()=>{
+                                setDeletingId(meeting.id)
                                 deleteMeeting.mutate({meetingId: meeting.id},{
                                     onSuccess: () => {
+                                        router.refresh()
                                         toast.success('Meeting successfully deleted!')
+                                        setDeletingId('')
                                     },
                                     onError:()=>{
+                                        setDeletingId('')
                                         toast.error('Failed to delete meeting')
                                     }
                                 })
