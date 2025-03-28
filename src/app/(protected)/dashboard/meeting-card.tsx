@@ -12,18 +12,28 @@ import { cn } from "~/lib/utils"
 import { api } from "~/trpc/react"
 import useProject from "~/hooks/use-projects"
 import { useRouter } from "next/navigation"
+import { useMutation } from "@tanstack/react-query"
+import axios from "axios"
 
 
 function MeetingCard() {
-    const {project} = useProject()
+    const { project} = useProject()
     const router = useRouter();
     const [isUploading,setIsUploading] = useState(false)
     const [progress,setProgress] = useState(0)
     const uploadMeeting = api.project.uploadMeeting.useMutation();
 
+    const processMeeting = useMutation({mutationFn: async(data:{meetingUrl:string, meetingId:string, projectId: string})=>{
+        const {meetingId,meetingUrl,projectId} = data
+        
+        const response = await axios.post(`/api/process-meeting`,{meetingUrl,meetingId,projectId})
+
+        return response.data
+    }})
+
     const { getRootProps, getInputProps } = useDropzone({
         accept: {
-            'audio/': ['.mp3','.wav','.m4a']
+            'audio/*': ['.mp3','.wav','.m4a']
         },
         multiple: false,
         maxSize: 50_000_000,
@@ -43,11 +53,16 @@ function MeetingCard() {
                     meetingUrl: downloadURL,
                     name: file.name
                 },{
-                    onSuccess: () => {
+                    onSuccess: (meeting) => {
                         toast.success('Meeting uploaded successfully!')
+                        
                         router.push('/meetings')
+                        
+                        processMeeting.mutateAsync({meetingUrl:downloadURL,meetingId:meeting.id,
+                        projectId: project.id})
                     },
-                    onError: ()=>{
+                    onError: (e)=>{
+                        console.log("error",e.message)
                         toast.error('Error in uploading meeting')
                     }
                 })
