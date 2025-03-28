@@ -6,7 +6,7 @@ generator client {
 datasource db {
     provider = "postgresql"
     url      = env("DATABASE_URL")
-    extensions = [pgvector(map: "vector", schema: "extensions")]
+    extensions = [vector]
 }
 model User {
     id String @id @default(cuid())
@@ -21,7 +21,7 @@ model User {
     credits Int @default(100)
     
     userToProjects UserToProject[]
-
+    questionsAsked Question[]
 
 }
 
@@ -37,6 +37,8 @@ model Project{
     Commits Commit[]
     userToProjects UserToProject[]
     SourceCodeEmbeddings SourceCodeEmbedding[]
+    savedQuestions Question[]
+    savedMeetings Meeting[]
 }
 
 model UserToProject{
@@ -80,6 +82,57 @@ model SourceCodeEmbedding {
 
     projectId String
     project Project @relation(fields: [projectId],references: [id])
+}
 
+model Question {
+    id String @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
+
+    question String
+    answer String
+
+    fileReferences Json?
+    projectId String
+    project Project @relation(fields: [projectId],references: [id])
+
+    userId String
+    user User @relation(fields: [userId],references: [id])
+
+}
+
+model Meeting {
+    id String @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
+
+    meetingUrl String
+
+    projectId String
+    project Project @relation(fields: [projectId],references: [id])
+
+    status MeetingStatus @default(PROCESSING)
+    issues Issue[]
+
+
+}
+
+model Issue{
+    id String @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
+
+    start String
+    end String
+    gist String
+    headLine String
+    summary String
+
+    meetingId String
+    meeting Meeting @relation(fields: [meetingId],references: [id])
+}
+enum MeetingStatus{
+    PROCESSING
+    COMPLETED
 }
 
