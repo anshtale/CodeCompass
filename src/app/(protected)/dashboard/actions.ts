@@ -31,7 +31,7 @@ export async function askQuestion(question : string, projectId: string){
         LIMIT 10
         ` as {fileName:string, sourceCode: string, summary: string}[]
 
-    console.log(result.length);
+    // console.log(result.length);
 
     let context = ''
     for(const doc of result){

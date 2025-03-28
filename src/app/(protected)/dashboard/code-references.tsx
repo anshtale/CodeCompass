@@ -20,11 +20,11 @@ function CodeReferences({fileReferences} : Props) {
             <Tabs value={tab} onValueChange={setTab}>
                 <div className="scrollable overflow-scroll gap-2 bg-gray-200 p-1 rounded-md">
                     {fileReferences.map((file)=>{
-                        console.log(file.fileName)
+                        // console.log(file.fileName)
                         return <button onClick = {()=>setTab(file.fileName)} key={file.fileName} className={cn(
-                            'px-3 py-1.5 text-sm font-medium rounded-md transition-colors whitespace-nowrap text-muted-foreground hover:bg-muted',
+                            'px-3 py-1.5 text-sm font-medium rounded-md m-0.5 transition-colors whitespace-nowrap text-muted-foreground hover:bg-muted',
                             {
-                                'bg-primary text-primary-foreground' : tab === file.fileName,
+                                'hover:bg-primary bg-primary/90 text-primary-foreground' : tab === file.fileName,
 
                             }
                         )}>

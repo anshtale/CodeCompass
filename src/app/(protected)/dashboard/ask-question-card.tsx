@@ -8,8 +8,13 @@ import useProject from "~/hooks/use-projects"
 import { askQuestion } from "./actions";
 import { readStreamableValue } from "ai/rsc";
 import CodeReferences from './code-references';
+import { api } from '~/trpc/react';
+import { toast } from 'sonner';
+import { SaveIcon } from 'lucide-react';
+import useRefetch from '~/hooks/use-refetch';
 
 function AskQuestionCard() {
+    const saveAnswer = api.project.saveAnswer.useMutation();
     const {project} = useProject();
     const [ question,setQuestion ] = useState('');
     const [open,setOpen] = useState(false);
@@ -38,15 +43,43 @@ function AskQuestionCard() {
 
         setLoading(false);
     }
+    const refetch = useRefetch()
 
     return (
         <>
             <Dialog  open = {open} onOpenChange={setOpen}>
                 <DialogContent className='scrollable max-h-[80vh] sm:max-w-[80vw] overflow-auto'>
                     <DialogHeader>
-                        <DialogTitle>
-                            <p>Logo</p>
-                        </DialogTitle>
+                        <div className="flex items-center gap-2">
+
+                            <DialogTitle>
+                                <p>Logo</p>
+                            </DialogTitle>
+                            <Button disabled = {saveAnswer.isPending} variant={'outline'} onClick={()=>{
+                                saveAnswer.mutate({
+                                    projectId:project!.id,
+                                    question,
+                                    answer,
+                                    fileReferences
+                                },{
+                                    onSuccess:()=>{
+                                        toast.success('Answer saved!')
+                                        refetch()
+                                    },
+                                    onError: ()=>{
+                                        toast.error('Failed to save answer!')
+                                    }
+                                })
+                            }}>
+                                <div className='flex justify-center items-center gap-1'>
+                                    <SaveIcon/>
+                                    <span>
+                                        Save
+                                    </span>
+                                </div>
+
+                            </Button>
+                        </div>
                     </DialogHeader>
 
                     <div>
