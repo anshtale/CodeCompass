@@ -113,8 +113,6 @@ model Meeting {
 
     status MeetingStatus @default(PROCESSING)
     issues Issue[]
-
-
 }
 
 model Issue{
@@ -130,7 +128,7 @@ model Issue{
     summary String
 
     meetingId String
-    meeting Meeting @relation(fields: [meetingId],references: [id])
+    meeting Meeting @relation(fields: [meetingId],references: [id],onDelete: Cascade)
 }
 enum MeetingStatus{
     PROCESSING
