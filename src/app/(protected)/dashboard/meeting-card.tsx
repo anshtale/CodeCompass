@@ -11,12 +11,13 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
 import { cn } from "~/lib/utils"
 import { api } from "~/trpc/react"
 import useProject from "~/hooks/use-projects"
-import { useRouter } from "next/navigation"
+import { useParams, usePathname, useRouter } from "next/navigation"
 import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
 
 
 function MeetingCard() {
+    const pathName = usePathname()
     const { project} = useProject()
     const router = useRouter();
     const [isUploading,setIsUploading] = useState(false)
@@ -24,8 +25,8 @@ function MeetingCard() {
     const uploadMeeting = api.project.uploadMeeting.useMutation();
 
     const processMeeting = useMutation({mutationFn: async(data:{meetingUrl:string, meetingId:string, projectId: string})=>{
-        const {meetingId,meetingUrl,projectId} = data
-        
+        const { meetingId,meetingUrl,projectId } = data
+
         const response = await axios.post(`/api/process-meeting`,{meetingUrl,meetingId,projectId})
 
         return response.data
@@ -56,7 +57,11 @@ function MeetingCard() {
                     onSuccess: (meeting) => {
                         toast.success('Meeting uploaded successfully!')
                         
-                        router.push('/meetings')
+                        if(pathName === '/dashboard'){
+                            router.push('/meetings')
+                        }else{
+                            router.refresh()
+                        }
                         
                         processMeeting.mutateAsync({meetingUrl:downloadURL,meetingId:meeting.id,
                         projectId: project.id})
