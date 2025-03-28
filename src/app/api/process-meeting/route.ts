@@ -32,7 +32,6 @@ export async function POST(req: NextRequest) {
                 , gist: summary.gist
                 , headLine: summary.headline
                 , meetingId
-                , projectId
                 , summary: summary.summary
             }))
 
@@ -49,8 +48,6 @@ export async function POST(req: NextRequest) {
         })
         
         return NextResponse.json({ success: true }, {status : 200} )
-
-
 
     } catch (error) {
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 })
