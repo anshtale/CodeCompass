@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { string, z } from "zod";
 import { createTRPCRouter, protectedProcedures } from "../trpc";
 import { pollCommits } from "~/lib/github";
 import { indexGithubRepo } from "~/lib/github-loader";
@@ -86,6 +86,34 @@ export const projectRouter = createTRPCRouter({
 
             },
             orderBy: {
+                createdAt: 'desc'
+            }
+        })
+    }),
+
+    uploadMeeting : protectedProcedures.input(z.object({
+        projectId: z.string(),
+        meetingUrl: z.string(),
+        name: z.string()
+    })).mutation(async ({ctx,input})=>{
+        const meeting =  await ctx.db.meeting.create({
+            data:{
+                meetingUrl: input.meetingUrl,
+                projectId: input.projectId,
+                name: input.name
+                status: "PROCESSING"
+            }
+        })
+    }),
+
+    getMeetings : protectedProcedures.input(z.object({
+        projectId: z.string()
+    })).query(async({ctx,input})=>{
+        return await ctx.db.meeting.findMany({
+            where: {
+                projectId: input.projectId
+            },
+            orderBy:{
                 createdAt: 'desc'
             }
         })
