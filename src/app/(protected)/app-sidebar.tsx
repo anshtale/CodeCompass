@@ -1,10 +1,13 @@
 'use client'
 
 import { Bot, CreditCardIcon, LayoutDashboard, Plus, Presentation } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { redirect, usePathname } from 'next/navigation'
 import { title } from 'process'
 import { Button } from '~/components/ui/button'
+
+import logo from 'public/logo.png'
 import {
     Sidebar,
     SidebarContent,
@@ -47,13 +50,19 @@ const items = [
 
 export function AppSideBar(){
     const pathname = usePathname();
-    const {open} = useSidebar();
+    const { open } = useSidebar();
     const { projects, projectId, setProjectId} = useProject();
     
     return (
         <Sidebar collapsible='icon' variant='floating'>
           <SidebarHeader>
-            Logo
+            <div className=' flex items-center justify-center'>
+                <div className='flex items-center gap-1'>
+                    <img className='h-11 w-12' src='logo.png'/>
+                    {open && <h1 className='text-xl text-gray-500 font-bold'>GitChat</h1>}
+                    
+                </div>
+            </div>
           </SidebarHeader>
 
           <SidebarContent>

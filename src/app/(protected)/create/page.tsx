@@ -8,6 +8,7 @@ import { api } from '~/trpc/react'
 import Spinner from './spinner'
 import useRefetch from '~/hooks/use-refetch'
 import { Info } from 'lucide-react'
+import { TRPCClientError } from '@trpc/client'
 
 type formInput = {
     repoUrl : string
@@ -46,7 +47,17 @@ function CreatePage() {
             checkCredits.mutate({
                 githubToken:data.githubToken,
                 githubUrl: data.repoUrl
+            },{
+                onError: (error)=>{
+                    if (error instanceof TRPCClientError) {
+                        toast.error(error.message)
+                    }
+                    else {
+                        toast.error('An unexpected error occurred')
+                    }
+                }
             })
+            
         }
     }
 
@@ -70,6 +81,9 @@ function CreatePage() {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Input 
                         {...register('repoUrl',{required : true})}
+                        onChange={(e)=>{
+                            setGtbUrl(e.target.value)
+                        }}
                         
                         placeholder='Repo-Url'
                         type='url'
@@ -96,7 +110,7 @@ function CreatePage() {
                                     <div className='flex items-center gap-2'>
                                         <Info className='size-4'/>
                                         <p className='text-sm'>
-                                            "You will be charged <strong>{checkCredits.data?.fileCount}</strong> credits for this repository"
+                                            You will be charged <strong>{checkCredits.data?.fileCount}</strong> credits for this repository
                                         </p>
 
                                     </div>

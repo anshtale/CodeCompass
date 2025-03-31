@@ -12,6 +12,8 @@ function QAPage() {
 
     const {data : questions} = api.project.getQuestions.useQuery({projectId})
 
+    console.log(questions?.length)
+
     const [questionIndex,setQuestionIndex] = useState(0)
     const question = questions?.[questionIndex]
 

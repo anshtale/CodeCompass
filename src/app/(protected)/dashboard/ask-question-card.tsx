@@ -51,9 +51,13 @@ function AskQuestionCard() {
                 <DialogContent className='scrollable max-h-[80vh] sm:max-w-[80vw] overflow-auto'>
                     <DialogHeader>
                         <div className="flex items-center gap-2">
-
                             <DialogTitle>
-                                <p>Logo</p>
+                                <div className=' flex items-center justify-center'>
+                                    <div className='flex items-center'>
+                                        <img className='h-11 w-12' src='logo.png'/>
+                                        <h1 className='text-xl text-gray-500 font-bold'>GitChat</h1>
+                                    </div>
+                                </div>
                             </DialogTitle>
                             <Button disabled = {saveAnswer.isPending} variant={'outline'} onClick={()=>{
                                 saveAnswer.mutate({

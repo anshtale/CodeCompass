@@ -1,6 +1,6 @@
+
 import { auth, clerkClient } from '@clerk/nextjs/server';
 import { notFound, redirect } from 'next/navigation';
-import React from 'react'
 
 import {db} from '~/server/db'
 

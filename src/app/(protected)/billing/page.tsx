@@ -21,9 +21,9 @@ function Billing() {
                 Billing
             </h1>
             <div className="h2"></div>
-            <p className="text-sm text-gray-500">You currently have {user?.credits}</p>
+            <p className="text-sm text-gray-500">You currently have {user?.credits} credits left</p>
             <div className="h2"></div>
-            <div className="bg-blue-50 px-4 py-2 rounded-md border border-blue-200 text-green-400">
+            <div className="bg-blue-50 px-4 py-2 rounded-md border border-blue-200 text-green-700">
                 <div className="flex items-center gap-2">
                     <Info className="size-4"></Info>
                     <p className="text-sm">Each credit allows you to index 1 file in a repository</p>
