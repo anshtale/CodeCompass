@@ -145,6 +145,19 @@ export const projectRouter = createTRPCRouter({
                 issues:true
             }
         })
+    }),
+
+    archiveProject: protectedProcedures.input(z.object({
+        projectId:z.string()
+    })).mutation(async({ctx,input})=>{
+        return await ctx.db.project.update({
+            where:{
+                id:input.projectId
+            },
+            data:{
+                deletedAt: new Date()
+            }
+        })
     })
 })
 
