@@ -14,8 +14,6 @@ const config = {
     typescript: {
         ignoreBuildErrors: true
     },
-    
-    plugins: [import("tailwindcss-animate")],
 };
 
 export default config;

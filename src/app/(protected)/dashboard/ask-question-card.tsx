@@ -10,7 +10,7 @@ import { readStreamableValue } from "ai/rsc";
 import CodeReferences from './code-references';
 import { api } from '~/trpc/react';
 import { toast } from 'sonner';
-import { SaveIcon } from 'lucide-react';
+import { Github, SaveIcon } from 'lucide-react';
 import useRefetch from '~/hooks/use-refetch';
 
 function AskQuestionCard() {
@@ -54,7 +54,7 @@ function AskQuestionCard() {
                             <DialogTitle>
                                 <div className=' flex items-center justify-center'>
                                     <div className='flex items-center'>
-                                        <img className='h-11 w-12' src='logo.png'/>
+                                    <Github className="h-6 w-6 text-green-500" />
                                         <h1 className='text-xl text-gray-500 font-bold'>GitChat</h1>
                                     </div>
                                 </div>

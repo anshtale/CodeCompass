@@ -1,6 +1,6 @@
 'use client'
 
-import { Bot, CreditCardIcon, LayoutDashboard, Plus, Presentation } from 'lucide-react'
+import { Bot, CreditCardIcon, Github, LayoutDashboard, Plus, Presentation } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { redirect, usePathname } from 'next/navigation'
@@ -58,7 +58,7 @@ export function AppSideBar(){
           <SidebarHeader>
             <div className=' flex items-center justify-center'>
                 <div className='flex items-center gap-1'>
-                    <img className='h-11 w-12' src='logo.png'/>
+                <Github className="h-6 w-6 text-green-500" />
                     {open && <h1 className='text-xl text-gray-500 font-bold'>GitChat</h1>}
                     
                 </div>

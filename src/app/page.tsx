@@ -3,18 +3,14 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useEffect, useState } from "react"
-import { ArrowRight, Code, Github, MessageSquare, Search, Zap, CheckCircle2 } from "lucide-react"
+import { ArrowRight, Code, Github, MessageSquare, Search, Zap, CheckCircle2, Video } from "lucide-react"
 import { Button } from "~/components/ui/button"
 import { Badge } from "~/components/ui/badge"
-import { Card, CardContent } from "~/components/ui/card"
 import { motion } from "framer-motion"
 import { SparklesCore } from "~/components/ui/sparkles"
 import { TracingBeam } from "~/components/ui/tracing-beam"
-import { HoverEffect } from "~/components/ui/card-hover-effect"
-import { AnimatedTooltip } from "~/components/ui/animated-tooltip"
 import { MacbookScroll } from "~/components/ui/macbook-scroll"
 import { GridBackground } from "~/components/ui/grid-background"
-import { FloatingCard } from "~/components/ui/floating-card"
 import { SparkleText } from "~/components/ui/sparkle-text"
 
 export default function Home() {
@@ -27,22 +23,28 @@ export default function Home() {
 
   const features = [
     {
-      title: "Semantic Search",
+      title: "Ask question",
       description: "Find exactly what you're looking for with natural language queries across your entire codebase.",
       icon: Search,
-      image: "/placeholder.svg?height=400&width=600",
+      image: "/ask-question.png?height=400&width=600",
     },
     {
       title: "Code Explanations",
       description: "Get detailed explanations of complex code patterns and architecture decisions.",
       icon: Code,
-      image: "/placeholder.svg?height=400&width=600",
+      image: "/question-answer.png?height=400&width=600",
     },
     {
-      title: "Instant Answers",
-      description: "Get immediate responses to your questions without having to dig through documentation.",
+      title: "Github Commit Insights",
+      description: "Get a crisp summary of your GitHub commits—track progress at a glance!",
       icon: Zap,
-      image: "/placeholder.svg?height=400&width=600",
+      image: "/commit-summary.png?height=400&width=600",
+    },
+    {
+      title: "Meeting Transcription",
+      description: "Transform your meetings into clear transcriptions and insightful summaries!",
+      icon: Video,
+      image: "/meeting-summary.png?height=400&width=600",
     },
   ]
 
@@ -175,18 +177,22 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
                 >
-                  <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white group">
-                    Get started - it's free
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Button>
+                  <Link href={'/dashboard'}>
+                    <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white group">
+                      Get started - it's free
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </Button>
+                  </Link>
                 </motion.div>
               </div>
 
-              <div className="relative mt-16">
+              <div className="relative mt-4">
                 <div className="rounded-lg border border-gray-800 bg-gray-900/50 shadow-xl overflow-hidden">
                   <MacbookScroll
-                    title={<span className="text-base text-gray-300">GitChat - Understanding your code</span>}
-                    src="/placeholder.svg?height=1000&width=1600"
+                    title={
+                      <span className="text-base text-gray-300">GitChat - Understanding your code</span>
+                    }
+                    src="/landing-page.png?height=1000&width=1600"
                     showGradient={false}
                   />
                 </div>
@@ -237,10 +243,7 @@ export default function Home() {
                       </div>
                       <h3 className="text-2xl font-bold mb-2 text-white">{feature.title}</h3>
                       <p className="text-gray-400 mb-4">{feature.description}</p>
-                      <Button variant="link" className="p-0 text-green-500 group">
-                        Learn more{" "}
-                        <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                      </Button>
+                      
                     </motion.div>
 
                     <motion.div
@@ -360,12 +363,17 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Link href="/dashboard" passHref>
-                    <Button size="lg" variant="secondary" className="inline-flex items-center gap-2">
-                      Get started for free
+                
+                <Link href="/dashboard" passHref>
+                  <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white">
+                      Get started
                       <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  </Link>
+                  </Button>
+                </Link>
+
+                  {/* <Button size="lg" variant="secondary" className="inline-flex items-center gap-2">
+                      Get started for free
+                  </Button> */}
                 </div>
               </div>
             </div>

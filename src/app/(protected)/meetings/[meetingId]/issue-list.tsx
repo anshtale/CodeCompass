@@ -1,3 +1,4 @@
+'use client'
 import { VideoIcon } from "lucide-react"
 import { api } from "~/trpc/react"
 import IssueCard from "./issue-card"
@@ -32,8 +33,8 @@ const IssueList = ({meetingId}: Props)=>{
                 </div>
                 <div className="h-4"></div>
                 <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-                    {meeting.issues.map(issue=>{
-                        return <IssueCard issue={issue}/>
+                    {meeting.issues.map((issue,key)=>{
+                        return <IssueCard issue={issue} key = {issue.id}/>
                     })}
                 </div>
             </div>
