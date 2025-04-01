@@ -116,14 +116,14 @@ export default function Home() {
     <div className="flex flex-col min-h-screen dark bg-black">
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-gray-800">
         <div className="container mx-auto flex items-center justify-between h-16 py-4">
-          <div className="flex items-centergap-6 md:gap-10">
+          <div className="m-2 flex items-centergap-6 md:gap-10">
             <Link href="/" className="flex items-center space-x-2">
               <Github className="h-6 w-6 text-green-500" />
               <span className="font-bold inline-block text-xl text-white">GitChat</span>
             </Link>
             
           </div>
-          <div className="flex items-center gap-2">
+          <div className="m-2 flex items-center gap-2">
             <Link href="/sign-in" passHref>
               <Button variant="ghost" size="sm" className="text-gray-300 hover:text-white">
                 Log in
@@ -186,7 +186,7 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              <div className="relative mt-4">
+              <div className="hidden sm:block relative mt-4">
                 <div className="rounded-lg border border-gray-800 bg-gray-900/50 shadow-xl overflow-hidden">
                   <MacbookScroll
                     title={
@@ -383,7 +383,7 @@ export default function Home() {
       <footer className="w-full border-t border-gray-800 bg-black">
         <div className="container mx-auto flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-12">
           <div className="flex items-center gap-2">
-            <p className="text-sm text-gray-400">© 2025 GitChat. All rights reserved.</p>
+            <p className="text-sm ml-2 text-gray-400">© 2025 GitChat. All rights reserved.</p>
           </div>
           
         </div>
