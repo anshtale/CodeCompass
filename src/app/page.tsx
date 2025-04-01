@@ -337,9 +337,6 @@ export default function Home() {
               </div>
             </div>
           </section>
-
-          
-
           <section className="w-full py-12 md:py-24 lg:py-32 bg-green-600 text-white relative overflow-hidden">
             <div className="absolute inset-0 z-0">
               <SparklesCore
@@ -363,7 +360,7 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Link href="/sign-up" passHref>
+                  <Link href="/dashboard" passHref>
                     <Button size="lg" variant="secondary" className="inline-flex items-center gap-2">
                       Get started for free
                       <ArrowRight className="h-4 w-4" />

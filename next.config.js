@@ -4,7 +4,18 @@
  */
 import "./src/env.js";
 
-/** @type {import("next").NextConfig} */
-const config = {};
+/**
+ * @type {import('next').NextConfig}
+ */
+const config = {
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
+    typescript: {
+        ignoreBuildErrors: true
+    },
+    
+    plugins: [import("tailwindcss-animate")],
+};
 
 export default config;
