@@ -1,6 +1,7 @@
 import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
+import { ThemeProvider } from "next-themes"
 import { type Metadata } from "next";
 import {
   ClerkProvider,
@@ -16,8 +17,8 @@ import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "GitChat",
-  description: "",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  description: "Ask questions, get insights, and understand your codebase faster with AI-powered repository chat.",
+  icons: [{ rel: "icon", url: "/logo.png" }],
 };
 
 export default function RootLayout({
@@ -27,7 +28,7 @@ export default function RootLayout({
     <ClerkProvider> 
       <html lang="en" className={`${GeistSans.variable}`}>
         <body>
-          
+
           <TRPCReactProvider>
             {children}
             </TRPCReactProvider>
