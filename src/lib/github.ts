@@ -45,7 +45,7 @@ export const getCommitHashes = async (githubUrl : string): Promise<Response[]>=>
 
 {/*pagination can be applied */}
 export const pollCommits = async(projectId : string) =>{
-    const {project, githubUrl} = await fetchProjectGithubUrl(projectId);
+    const { project, githubUrl } = await fetchProjectGithubUrl(projectId);
 
     const commitHashes = await getCommitHashes(githubUrl);
 

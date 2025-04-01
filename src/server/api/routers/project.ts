@@ -3,6 +3,8 @@ import { createTRPCRouter, protectedProcedures } from "../trpc";
 import { pollCommits } from "~/lib/github";
 import { checkCredits, indexGithubRepo } from "~/lib/github-loader";
 import { github } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { TRPCError } from "@trpc/server";
+import { RequestError } from "octokit";
 
 export const projectRouter = createTRPCRouter({
     createProject: protectedProcedures.input(
@@ -191,17 +193,42 @@ export const projectRouter = createTRPCRouter({
         githubToken: z.string().optional()
     })).mutation(async ({ctx,input})=>{
         const githubUrl = input.githubUrl;
-        const fileCount = await checkCredits(githubUrl,input.githubToken)
 
-        const userCredits = await ctx.db.user.findUnique({
-            where:{
-                id:ctx.user.userId!
-            },select: {
-                credits:true
+        try{
+            if (!ctx.user?.userId) {
+                throw new TRPCError({ code: 'UNAUTHORIZED' })
             }
-        })
 
-        return {fileCount, userCredits : userCredits?.credits || 0,githubUrl}
+            const user = await ctx.db.user.findUnique({
+                where: { id: ctx.user.userId },
+                select: { credits: true }
+              })
+        
+            if (!user) {
+                throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' })
+            }
+
+            const fileCount = await checkCredits(githubUrl,input.githubToken)
+
+            const userCredits = await ctx.db.user.findUnique({
+                where:{
+                    id:ctx.user.userId!
+                },select: {
+                    credits:true
+                }
+            })
+
+            return {fileCount, userCredits : userCredits?.credits || 0,githubUrl}
+
+        }catch(error){
+            
+            throw new TRPCError({
+                code: error instanceof TRPCError ? error.code : 'INTERNAL_SERVER_ERROR',
+                message: error instanceof Error ? error.message : 'Operation failed',
+                cause: error
+            })
+            
+        }
     })
 })
 

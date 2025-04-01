@@ -6,37 +6,39 @@ import { db } from "~/server/db";
 import { Octokit } from "octokit";
 
 const getFileCount = async(path:string,octoKit:Octokit,githubOwner:string,githubRepo:string, acc: number = 0)=>{
-    const {data} = await octoKit.rest.repos.getContent({owner:githubOwner, repo: githubRepo,path})
-
-    if(!Array.isArray(data) && data.type === 'file'){
-        return acc + 1
-    }
-
-    if(Array.isArray(data)){
-        let fileCount = 0;
-        const directories: string[] = []
-
-        for(const item of data){
-            if(item.type === 'dir'){
-                directories.push(item.path)
-            } else{
-                fileCount++;
+    
+        const {data} = await octoKit.rest.repos.getContent({owner:githubOwner, repo: githubRepo,path})
+    
+        if(!Array.isArray(data) && data.type === 'file'){
+            return acc + 1
+        }
+    
+        if(Array.isArray(data)){
+            let fileCount = 0;
+            const directories: string[] = []
+    
+            for(const item of data){
+                if(item.type === 'dir'){
+                    directories.push(item.path)
+                } else{
+                    fileCount++;
+                }
             }
+    
+            if(directories.length > 0){
+
+                const directoryCounts = await Promise.all(
+                    directories.map((dirPath) => getFileCount(dirPath, octoKit, githubOwner, githubRepo,0))
+                )
+    
+                fileCount += directoryCounts.reduce((acc,count)=> acc + count,0)
+            }
+    
+            return acc + fileCount
         }
+        return acc
 
-        if(directories.length > 0){
-            const directoryCounts = await Promise.all(
-                directories.map((dirPath) => getFileCount(dirPath, octoKit, githubOwner, githubRepo,0))
-            )
-
-            fileCount += directoryCounts.reduce((acc,count)=> acc + count,0)
-        }
-
-        return acc + fileCount
-    }
-
-    return acc
-
+    
 
 
 }
@@ -49,9 +51,29 @@ export const checkCredits = async(githubUrl : string, githubToken?: string)=>{
 
     if(!githubOwner || !githubRepo) return 0;
 
-    const fileCount = await getFileCount('',octoKit,githubOwner,githubRepo,0)
+    try {
+        // Validate URL structure
+        const parsedUrl = new URL(githubUrl)
+        const pathParts = parsedUrl.pathname.split('/').filter(Boolean)
+        
+        if (pathParts.length < 2) {
+          throw new Error('Invalid GitHub URL format')
+        }
+        
+        const [githubOwner, githubRepo] = pathParts
+        if(!githubOwner || !githubRepo){
+          throw new Error('Invalid GitHub URL format')
+        }
+        
+        return await getFileCount('', octoKit, githubOwner, githubRepo)
+      } catch (error) {
+        throw new Error(
+          error instanceof Error 
+            ? `GitHub analysis failed: ${error.message}`
+            : 'Unknown repository error'
+        )
+      }
     
-    return fileCount;
 }
 
 export const loadGithubRepo = async(githubUrl : string, githubToken? : string)=>{
