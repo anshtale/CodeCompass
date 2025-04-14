@@ -13,6 +13,7 @@ import {
 } from '@clerk/nextjs'
 
 import { TRPCReactProvider } from "~/trpc/react";
+import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
@@ -28,9 +29,10 @@ export default function RootLayout({
     <ClerkProvider> 
       <html lang="en" className={`${GeistSans.variable}`}>
         <body>
-
+          <NextTopLoader />
           <TRPCReactProvider>
             {children}
+            
             </TRPCReactProvider>
           <Toaster richColors/>
         </body>
