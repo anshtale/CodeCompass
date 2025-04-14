@@ -29,7 +29,7 @@ export default function RootLayout({
     <ClerkProvider> 
       <html lang="en" className={`${GeistSans.variable}`}>
         <body>
-          <NextTopLoader />
+          <NextTopLoader color="#16A34A"/>
           <TRPCReactProvider>
             {children}
             
