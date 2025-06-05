@@ -1,29 +1,21 @@
-# Create T3 App
+<h2 align="center">GitChat</h2>
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+GitChat is an 🚀 AI-powered web application that lets you chat directly with your GitHub repositories and ask questions about your projects using 🧠 Retrieval-Augmented Generation (RAG). It's designed to help developers and teams understand their codebase faster and collaborate more effectively. 💬
 
-## What's next? How do I make an app with this?
+## Features of GitChat
+*   **AI-Powered Code Interaction:** Chat with your codebase and get answers to your questions about project functionality using RAG.
+*   **GitHub Integration:** Seamlessly connect and index your GitHub repositories.
+*   **User Authentication:** Secure user sign-up and sign-in.
+*   **Project Management:** Organize and manage your indexed repositories as projects.
+*   **Collaboration Tools:** Features for meetings and Q&A sessions.
+*   **Billing:** Integrated billing functionalities.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Technologies Used
+ **Frontend and Backend Technologies**
+*   **Next.js:** React framework for building the user interface.
+*   **tRPC:** End-to-end typesafe APIs for communication between frontend and backend, including AI features.
+*   **Tailwind CSS:** Utility-first CSS framework for styling.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
-
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
-
-## Learn More
-
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
-
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+  **AI Retrieval/Features Technologies**
+*   **Retrieval-Augmented Generation (RAG):** Core technique for providing context-aware answers from your codebase.
+*   **Google Gemini:** Used for AI model capabilities.
