@@ -1,8 +1,8 @@
-<h2 align="center">CodeCompass</h2>
+<h2 align="center">GitChat</h2>
 
-CodeCompass is an 🚀 AI-powered web application that lets you chat directly with your GitHub repositories and ask questions about your projects using 🧠 Retrieval-Augmented Generation (RAG). It's designed to help developers and teams understand their codebase faster and collaborate more effectively. 💬
+GitChat is an 🚀 AI-powered web application that lets you chat directly with your GitHub repositories and ask questions about your projects using 🧠 Retrieval-Augmented Generation (RAG). It's designed to help developers and teams understand their codebase faster and collaborate more effectively. 💬
 
-## Features of CodeCompass
+## Features of GitChat
 *   **AI-Powered Code Interaction:** Chat with your codebase and get answers to your questions about project functionality using RAG.
 *   **GitHub Integration:** Seamlessly connect and index your GitHub repositories.
 *   **User Authentication:** Secure user sign-up and sign-in.
